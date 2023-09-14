@@ -1,6 +1,4 @@
 '''
-test
-
 Because this is a large project, we will complete the project in
 parts. Each lesson leading to the final tic-tac-toe game will
 make the game MORE complete. 
@@ -12,7 +10,7 @@ will use. THEN, proceed with this file.
 ============ THE CODE ============
 
 Our main data structure will be a 2D list:
-BOARD = [
+board = [
     ['1', '2', '3'],
     ['4', '5', '6'],
     ['7', '8', '9'],
@@ -34,77 +32,105 @@ an integer representing one of the unmarked positions in the board.
 ==================================
 
 
-============ # TODO 0 ============
-Explore the code at the code in the main() function,
-until you can answer the following questions (based on the
-code):
-1. Under what condition does the game end? It ends when one of the player wins or if the game is tied.
-2. What step(s) are "missing" from our
-main() function to run the game correctly? It doesn't say that it will mark and X or an O wherever the player wishes to put their marker.
-    (HINT: Who wins?, how do we mark the board?)
+============ # TODO 4 ============
+Recall that last time we flattened a 2D list into
+a 1D list. Note that we can also 'unflatten' a 1D board
+from 1D format to 2D format:
+
+                   1D                                            2D                            
+                                                            [
+                                              unflatten      ['1', '2', 'X'],
+['1', '2', 'X', '4', '5', '6', 'O', '8', '9'] ==========>    ['4', '5', '6'],
+                                                             ['O', '8', '9'],
+                                                            ]
+
+Complete the (unflatten) function to turn any 1D board into a 2D board.
+You may assume the 2D board is always 3x3 (BOARD_DIM * BOARD_DIM).
+
+HINT: Recall that we can get a range of list elements with splicing:
+        suppose s = [1,2,3,4,5,6,7,8,9]
+        then s[i:j] gets the range from index i (inclusive, start index)
+        to index j (exclusive, stop index)
+
+        >>> s[0:3]
+        [1,2,3]
+        
+        >>> s[3:6]
+        [4,5,6]
+        
+        >>> s[6:9]
+        [7,8,9]
+
+        Note that s[0:3], s[3:6], s[6:9] would be the 'rows' of the
+        2D format. What can you do with this?
 ==================================
 
-============ # TODO 1 ============
-Complete (get_current_player) that returns 'X' when
-it is player X's turn (when turn is even) and
-returns 'O' when it is player 'O's turn.
+
+============ # TODO 5a ============
+Complete the function (mark), which is given the state of the board
+in 2D format (board_2d), the board position (pos), and the current player
+('X' or 'O') as (player), and returns the state of the board in 2D format
+after the player marks the position on the board.
+
+HINT: You may use/call other functions in this file you have written when
+writing the code for (mark). Just know that calling the SAME function in it's
+own definition is called recursion (we'll talk about this later, just know
+to avoid it for this project e.g. don't call my_func() in the definition of
+my_func)
+
+HINT: How do we flatten board_2d into a 1D board?
+
+HINT: Once we have a 1D board, how can use indexing to set the
+        correct element to the player's mark (player)?
+        
+HINT: Once we have a 1D board how do we set the correct element
+        to the player's mark?
+        
+HINT: Once we set the player's mark in the 1D board, how do we convert
+        this marked 1D board into an equivalent 2D board (which is
+        what we return)?
 ==================================
 
-============ # TODO 2 ============
-Note that we can also 'flatten' the board
-from 2D format to 1D format. The 2D format
-will help in checking winners, and the 1D
-format will help in formatted printing.
 
-       2D                                    1D
-[
-    ['1', '2', '3'],     flattened
-    ['4', '5', '6'],     ======>   ['1', '2', '3', '4', '5', '6', '7', '8', '9']    
-    ['7', '8', '9'],
-]
-
-Complete the (flatten) function to turn any 2D board into a 1D board.
-Once finished, read the print_board function to see how it uses flatten.
-==================================
-
-
-============ # TODO 3 ============
-Complete the function (is_unmarked). Given a 2D 3x3 board (board_2d) and a
-position from 1-9 (pos) return True if position (pos) of (board_2d) is
-currently unmarked, else False.
-
-HINT: What function you just wrote turns a 2D board into a 1D board?
-HINT: What conditions do we need to check that a board position is unmarked?
-    Check out the str.isdigit() method on the web.
-    Or in IDLE:    
-    >>> d = '4'
-    >>> d.isdigit()
-    True
-    >>> 'X'.isdigit()
-    False
+============ # TODO 5b ============
+In the while-loop of the function (main),
+we first:
+    1. get the current player
+    2. print the current state of the board
+    3. ask the player for a position to mark
     
-HINT: Given a position (pos), the index at that position is (pos - 1)
-(after appropriately converting str to int) as shown in the figure below:
+after getting the integer position from user input (pos),
+we need to mark the board at the position with the player's mark.
 
-(flattened empty board) ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-
-                (index)   0    1    2    3    4    5    6    7    8
-
+TODO 5a asked you to write the (mark) function. Now for TODO 5b,
+you must call the (mark) function in (main) and set the
+(board) variable to mark's return value.
 ==================================
 
-Once you are finished with TODOs 0,1,2 and 3, use the following command
-in freshly opened terminal to run the incomplete game:
+============ # TODO 6 ============
+Once you are finished with the TODO 4, TODO 5a, and TODO 5b, run the incomplete
+game using the following command in a freshly opened terminal. Then, answer the
+questions (as you typed last time).
 
 cd python-problems/project
 python3 -B ttt.py
 
-What appears to be missing from the game so far?
+Now that we've made new changes, what appears to be missing from
+the game so far?
+
+
+
+
+
+Can you (briefly) describe an algorithm (in english/pseudocode)
+to finish the game?
+
+
+==================================
 '''
 
 # In python, variables written here in all-capital
 # are usually meant to represent useful constants/data
-# we follow that convention except for BOARD, which
-# is modified in the game loop
 
 # some configuration information
 NUM_PLAYERS = 2 # number of players
@@ -123,18 +149,10 @@ BOARD_TEMPLATE = '''
  {} | {} | {}
 '''
 
-# initial board values are all open positions (unmarked)
-BOARD = [
-    ['1', '2', '3'],
-    ['4', '5', '6'],
-    ['7', '8', '9'],
-]
-
 def get_current_player(turn):
     '''Given the game turn number, return 'X' if it is player X's turn.
     and 'O' if it is player O's turn.
     '''
-    # TODO 1: YOUR CODE BELOW
     if turn % 2 == 0:
         return ("X")
     else:
@@ -146,11 +164,21 @@ def flatten(board_2d):
     described in the problem statement.
     '''
     board_1d = []
-    # TODO 2: YOUR CODE HERE
     for row in board_2d:
         for x in row:
             board_1d.append(x)
     return board_1d
+
+def unflatten(board_1d):
+    '''Given a 1D game board (board_1d),
+    unflatten it into a 2D representation as
+    described in the problem statement.
+    '''
+    # TODO 4: YOUR CODE BELOW (replace None below)
+    
+    board_2d = [board_1d[0:3], board_1d[3:6], board_1d[6:9]]
+    return board_2d
+
 
 def is_unmarked(board_2d, pos):
     '''Given a 2D 3x3 board (board_2d) and a position from 1-9 (pos)
@@ -159,9 +187,8 @@ def is_unmarked(board_2d, pos):
     board_2d: List[List[str]]
     pos: int
     '''
-    # convert board position (1-9) to index of the 1D board (0-8)
-    # TODO 3: YOUR CODE HERE (replace None)
     board_1d = flatten(board_2d)
+    # convert board position (1-9) to index of the 1D board (0-8)
     idx = pos - 1
     board_value = board_1d[idx]
     if (board_value == "X") or (board_value == "O"):
@@ -174,35 +201,119 @@ def print_board(board_2d):
     board_2d: a the game board in 2D format
     '''
     board_1d = flatten(board_2d)
-    print(board_1d)
     # don't worry about the asterisk in *board_1d below: it takes
     # a list and 'unpacks' it by taking each list element and
     # inserting it as a separate argument to .format()
     print(BOARD_TEMPLATE.format(*board_1d))
-    
 
-# TODO 0:
+def mark(board_2d, pos, player):
+    '''Given a game board in 2D format (board_2d),
+    an integer position from 1 to 9 (pos),
+    and the player's mark as a string, 'X' or 'O' (player),
+    
+    return a new board (new_board_2d) in 2D format so that the returned
+    board is the same as board_2d, except that it contains the player's
+    mark (player) at the position (pos). Remember that pos is not an index,
+    but the numbered position 1-9.
+    
+    
+    board_2d: List[List[str]]
+    pos: int
+    player: str ('X' or 'O')
+    '''
+    # TODO 5a: YOUR CODE BELOW
+
+
+    board_1d = flatten(board_2d)
+    idx = pos - 1
+    board_1d[idx] = player
+    new_board_2d = unflatten(board_1d)
+    return new_board_2d
+
+def find_winner(board_2d):
+    '''
+    board_2d: board in 2D format with numbers or X or O (List[List[str]])
+
+    [
+        ['1', '2', 'X'],
+        ['4', '5', '6'],
+        ['O', '8', '9'],
+    ]
+
+    return value: 'X' (player X wins), 'O' (player O wins), '' (tie, or game in progress)
+    '''
+    
+    # check the 3 vertical wins
+    for col_idx in range(BOARD_DIM): # 0, 1, 2
+        #check each column
+        # are all the positions in col_idx the same?
+        all_same = ((board_2d[0][col_idx] == board_2d[1][col_idx]) and (board_2d[1][col_idx] == board_2d[2][col_idx]))
+        winner = board_2d[0][col_idx]
+        if (all_same):
+            return winner
+    # done with vertical check
+
+    # check the 3 horizontal wins
+    # TODO: 7
+
+    for row_idx in range(BOARD_DIM):
+        horizontal = ((board_2d[row_idx][0] == board_2d[row_idx][1]) and (board_2d[row_idx][1] == board_2d[row_idx][2]))
+        winner = board_2d[row_idx][0]
+        if (horizontal):
+            return winner
+    # check the 2 diagonal wins
+    # TODO: 8
+    diagonal = ((board_2d[0][0] == board_2d[1][1]) and (board_2d[1][1] == board_2d[2][2]))
+    diagonal_1 = ((board_2d[0][2] == board_2d[1][1]) and (board_2d[1][1] == board_2d[2][0]))
+    winner = board_2d[1][1]
+    if(diagonal or diagonal_1):
+        return winner
+
+    # if still here after all checks,
+    return ''
+
 def main():
+    # initial board values are all open positions (unmarked)
+    board = [
+        ['1', '2', '3'],
+        ['4', '5', '6'],
+        ['7', '8', '9'],
+    ]
+    
     playing = True # the variable that keeps the game looping
     turn = 0 # which turn are we playing?
     while(playing):
 
         player = get_current_player(turn) # current player ('X' or 'O')
 
-        print_board(BOARD)
+        print_board(board)
 
         # prompt current player for position
         pos = int(input("Player {}, pick a position: ".format(player)))
 
-        # mark the board at player's chosen position
-        # (TODO NEXT WEEK)
-        
-        # update turn and winner
+        # TODO 5b: mark the board at player's chosen position
+        # YOUR CODE HERE
+        board = mark(board, pos, player)
+        #return board
+    
+        # TODO NEXT WEEK: determine a winner
+        winner = find_winner(board)# 'X', 'O', ''
+        breakpoint()
+        if turn == 8 and winner == '':
+            print("It's a tie")
+            
+        # update turn
         turn += 1
         # playing ends when we have more turns than positions to mark
         playing = (turn < NUM_POS)
-        
 
+        if (winner == 'X' or winner == 'O'):
+            playing = False
+            print("player {} won!".format(winner))
+        
+    print_board(board)
+    print("END OF GAME")
+    
 # Don't worry about this code.
 # True if run directly by terminal/interpreter
 if __name__ == '__main__':
